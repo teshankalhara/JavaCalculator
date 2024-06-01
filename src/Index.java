@@ -27,7 +27,7 @@ class Calculator extends JFrame implements ActionListener {
         displayPanel();//display panel
         buttonPanel();//btn panel
         clearBtnPanel();//clr btn panel
-        backspacePanel();//bcksp btn panel
+        backspacePanel();//backspace btn panel
     }
 
     public void displayPanel() {
