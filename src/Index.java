@@ -66,14 +66,14 @@ class Calculator extends JFrame implements ActionListener {
         layout.putConstraint(SpringLayout.WEST, btnPanel, 17, SpringLayout.WEST, this);
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
-
         String btnClick = e.getActionCommand();
         if (btnClick.matches("[0-9]")) {
             if (clickEq || clickOp || dspField.getText().equals("0")) {
                 dspField.setText(btnClick);
-            }else {
+                clickEq = false;
+                clickOp = false;
+            } else {
                 dspField.setText(dspField.getText() + btnClick);
             }
         } else if (btnClick.equals("=")) {
@@ -86,22 +86,21 @@ class Calculator extends JFrame implements ActionListener {
                 default -> 0;
             };
 
-            dspField.setText((Double.toString(result)));
+            dspField.setText(Double.toString(result));
 
             clickOp = false;
             clickEq = true;
         } else if (btnClick.equals(".")) {
-            if (!dspField.getText().contains(("."))) {
-                dspField.setText((dspField.getText() + btnClick));
+            if (!dspField.getText().contains(".")) {
+                dspField.setText(dspField.getText() + btnClick);
             }
         } else {
             if (!clickOp) {
                 n1 = Double.parseDouble(dspField.getText());
+                clickOp = true;
+                clickEq = false;
             }
             op = btnClick.charAt(0);
-
-            clickOp = true;
-            clickEq = true;
         }
     }
 }
