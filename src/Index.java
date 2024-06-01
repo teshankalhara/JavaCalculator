@@ -4,7 +4,7 @@ import java.awt.event.*;
 
 class Calculator extends JFrame implements ActionListener {
     JButton[] btnArr = new JButton[16];
-    JButton clearBtn;
+    JButton clearBtn,backspaceBtn;
     JTextField dspField;
     SpringLayout layout = new SpringLayout();
     boolean clickEq = false;
@@ -27,6 +27,7 @@ class Calculator extends JFrame implements ActionListener {
         displayPanel();//display panel
         buttonPanel();//btn panel
         clearBtnPanel();//clr btn panel
+        backspacePanel();//bcksp btn panel
     }
 
     public void displayPanel() {
@@ -67,7 +68,7 @@ class Calculator extends JFrame implements ActionListener {
 
     public void clearBtnPanel() {
         JPanel clrPanel = new JPanel();
-        clearBtn = new JButton("CLEAR BUTTON");
+        clearBtn = new JButton("CLEAR");
         clearBtn.setFont(new Font("", Font.PLAIN, 30));
         clearBtn.addActionListener(this);
 
@@ -76,7 +77,21 @@ class Calculator extends JFrame implements ActionListener {
         this.getContentPane().add(clrPanel);
 
         layout.putConstraint(SpringLayout.NORTH, clrPanel, 355, SpringLayout.NORTH, this);
-        layout.putConstraint(SpringLayout.WEST, clrPanel, 5, SpringLayout.WEST, this);
+        layout.putConstraint(SpringLayout.WEST, clrPanel, 40, SpringLayout.WEST, this);
+    }
+
+    public void backspacePanel() {
+        JPanel bspPanel = new JPanel();
+        backspaceBtn = new JButton("<");
+        backspaceBtn.setFont(new Font("", Font.PLAIN, 30));
+        backspaceBtn.addActionListener(this);
+
+        bspPanel.add(backspaceBtn);
+
+        this.getContentPane().add(bspPanel);
+
+        layout.putConstraint(SpringLayout.NORTH, bspPanel, 355, SpringLayout.NORTH, this); // Adjusted the position for the backspace button
+        layout.putConstraint(SpringLayout.WEST, bspPanel, 185, SpringLayout.WEST, this);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -107,14 +122,21 @@ class Calculator extends JFrame implements ActionListener {
             if (!dspField.getText().contains(".")) {
                 dspField.setText(dspField.getText() + btnClick);
             }
-        } else if (btnClick.equals("CLEAR BUTTON")) {
+        } else if (btnClick.equals("CLEAR")) {
             dspField.setText("0");
             clickEq = false;
             clickOp = false;
             n1 = 0;
             n2 = 0;
             op = '\0';
-        } else {
+        } else if (btnClick.equals("<")) {
+            String currentText = dspField.getText();
+            if (currentText.length() > 1) {
+                dspField.setText(currentText.substring(0, currentText.length() - 1));
+            } else {
+                dspField.setText("0");
+            }
+        }else {
             if (!clickOp) {
                 n1 = Double.parseDouble(dspField.getText());
                 clickOp = true;
