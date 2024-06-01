@@ -107,7 +107,7 @@ class Calculator extends JFrame implements ActionListener {
             if (!dspField.getText().contains(".")) {
                 dspField.setText(dspField.getText() + btnClick);
             }
-        } else if (btnClick.equals("CLEAR")) {
+        } else if (btnClick.equals("CLEAR BUTTON")) {
             dspField.setText("0");
             clickEq = false;
             clickOp = false;
