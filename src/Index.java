@@ -4,6 +4,7 @@ import java.awt.event.*;
 
 class Calculator extends JFrame implements ActionListener {
     JButton[] btnArr = new JButton[16];
+    JButton clearBtn;
     JTextField dspField;
     SpringLayout layout = new SpringLayout();
     boolean clickEq = false;
@@ -12,22 +13,20 @@ class Calculator extends JFrame implements ActionListener {
     char op;
 
     Calculator() {
-        setSize(300, 410);
+        setSize(300, 460);
         setTitle("Calculator");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
-
         setLayout(layout);
-
         addPanel();
-
         setVisible(true);
     }
 
     public void addPanel() {
         displayPanel();//display panel
         buttonPanel();//btn panel
+        clearBtnPanel();//clr btn panel
     }
 
     public void displayPanel() {
@@ -66,6 +65,20 @@ class Calculator extends JFrame implements ActionListener {
         layout.putConstraint(SpringLayout.WEST, btnPanel, 17, SpringLayout.WEST, this);
     }
 
+    public void clearBtnPanel() {
+        JPanel clrPanel = new JPanel();
+        clearBtn = new JButton("CLEAR BUTTON");
+        clearBtn.setFont(new Font("", Font.PLAIN, 30));
+        clearBtn.addActionListener(this);
+
+        clrPanel.add(clearBtn);
+
+        this.getContentPane().add(clrPanel);
+
+        layout.putConstraint(SpringLayout.NORTH, clrPanel, 355, SpringLayout.NORTH, this);
+        layout.putConstraint(SpringLayout.WEST, clrPanel, 5, SpringLayout.WEST, this);
+    }
+
     public void actionPerformed(ActionEvent e) {
         String btnClick = e.getActionCommand();
         if (btnClick.matches("[0-9]")) {
@@ -94,6 +107,13 @@ class Calculator extends JFrame implements ActionListener {
             if (!dspField.getText().contains(".")) {
                 dspField.setText(dspField.getText() + btnClick);
             }
+        } else if (btnClick.equals("CLEAR")) {
+            dspField.setText("0");
+            clickEq = false;
+            clickOp = false;
+            n1 = 0;
+            n2 = 0;
+            op = '\0';
         } else {
             if (!clickOp) {
                 n1 = Double.parseDouble(dspField.getText());
